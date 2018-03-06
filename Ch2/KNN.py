@@ -8,6 +8,7 @@ def creatDataSet():
     label=['A','A','B','B'];
     return group,label;
 
+
 if __name__=="__main__":
     group,label=creatDataSet();
     print group;
