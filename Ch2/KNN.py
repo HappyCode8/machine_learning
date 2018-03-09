@@ -45,15 +45,40 @@ if __name__=="__main__":
     # print label;
     # print classify0([1, 2], group, label, 3);
     datingDataMat, datingLabels=file2matrix("datingTestSet2.txt");
-    # print  datingDataMat;
-    # print datingLabels[0:20];
-    fig=plt.figure();
-    ax=fig.add_subplot(111);#一行一列一个
-    ax.set_title(u'示意图');
-    ax.scatter(datingDataMat[:,1],datingDataMat[:,2],15.0*array(datingLabels),15.0*array(datingLabels));
+    # print  datingDataMat;#属性
+    # print datingLabels[0:20];#类标
     plt.rcParams['font.sans-serif']=['SimHei']; #用来正常显示中文标签
     plt.rcParams['axes.unicode_minus']=False; #用来正常显示负号
-    plt.xlabel(u"玩视频游戏所耗时间百分比");
-    plt.ylabel(u"每周消费的冰淇淋公升数");
+    f1 = plt.figure();
+    ax1 = f1.add_subplot(111);#一行一列一个
+    ax1.set_title(u'示意图');#标题
+    plt.xlabel(u"玩视频游戏所耗时间百分比");#x坐标
+    plt.ylabel(u"每周消费的冰淇淋公升数"); #y坐标
+    # for i in range(len(datingLabels)):
+    #     if datingLabels[i] == 1:
+    #         p1=ax1.scatter(datingDataMat[i:i+1, 1], datingDataMat[i:i+1 ,2],color = 'red')
+    #     if datingLabels[i] == 2:
+    #         p2=ax1.scatter(datingDataMat[i:i+1, 1], datingDataMat[i:i+1, 2], color='green')
+    #     if datingLabels[i] == 3:
+    #         p3=ax1.scatter(datingDataMat[i:i+1, 1], datingDataMat[i:i+1, 2], color='black')
+    # plt.legend([p1, p2,p3], [u'不喜欢', u'魅力一般', u'极具魅力'], loc='lower right', scatterpoints=1)
+    ax1.scatter(datingDataMat[:,1],datingDataMat[:,2],15.0*array(datingLabels),15.0*array(datingLabels));#分别是x,y，尺
+
+    f2 = plt.figure();
+    ax2 = f2.add_subplot(111);#一行一列一个
+    ax2.set_title(u'示意图2');#标题
+    plt.xlabel(u"每年获取的飞行常客里程数");#x坐标
+    plt.ylabel(u"玩视频游戏所耗时间百分比"); #y坐标
+    for i in range(len(datingLabels)):
+        if datingLabels[i] ==1:
+            p1=ax2.scatter(datingDataMat[i:i+1, 0], datingDataMat[i:i+1 ,1],color = 'red')
+        if datingLabels[i] == 2:
+            p2=ax2.scatter(datingDataMat[i:i+1, 0], datingDataMat[i:i+1, 1], color='green')
+        if datingLabels[i] == 3:
+            p3=ax2.scatter(datingDataMat[i:i+1, 0], datingDataMat[i:i+1, 1], color='black')
+    plt.legend([p1,p2,p3], [u'不喜欢', u'魅力一般', u'极具魅力'], loc='upper left', scatterpoints=1)
+    # ax2.scatter(datingDataMat[:,0],datingDataMat[:,1],15.0*array(datingLabels),15.0*array(datingLabels));#分别是x,y，尺寸，色彩
     plt.show();
+
+
 
