@@ -87,7 +87,18 @@ def datingClassTest():
         if (classifierResult != datingLabels[i]): errorCount += 1.0
     print "the total error rate is: %f" % (errorCount/float(numTestVecs))
     print errorCount
-
+'''
+'''
+def classifyPerson():
+    resultList=['didntLike','in small doses','in large doses'];
+    ffMiles=float(raw_input(u"每年获得的飞行常客里程数："));
+    percentTats=float(raw_input(u"玩视频游戏所耗时间百分比："));
+    iceCream=float(raw_input(u"每年消费的冰淇淋公升数："));
+    datingDataMat,datingLabels = file2matrix('datingTestSet2.txt')
+    normMat, ranges, minVals = autoNorm(datingDataMat)
+    inArr = array([ffMiles, percentTats, iceCream])
+    classifierResult = classify0((inArr-minVals)/ranges,normMat,datingLabels,3)
+    print u"你喜欢这个人的概率为: ", resultList[classifierResult - 1]
 '''
 主函数
 '''
@@ -132,7 +143,9 @@ if __name__=="__main__":
     # ax2.scatter(datingDataMat[:,0],datingDataMat[:,1],15.0*array(datingLabels),15.0*array(datingLabels));#分别是x,y，尺寸，色彩
     # plt.show();
     # print autoNorm(datingDataMat);
-    datingClassTest();
+    #datingClassTest();
+    classifyPerson();
+
 
 
 
