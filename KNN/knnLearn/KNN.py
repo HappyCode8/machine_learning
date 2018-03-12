@@ -88,13 +88,16 @@ def datingClassTest():
     print "the total error rate is: %f" % (errorCount/float(numTestVecs))
     print errorCount
 '''
+功能：分类测试
+输入：无
+输出：归类类别
 '''
 def classifyPerson():
-    resultList=['didntLike','in small doses','in large doses'];
+    resultList=['didn\'tLike','in small doses','in large doses'];
     ffMiles=float(raw_input(u"每年获得的飞行常客里程数："));
     percentTats=float(raw_input(u"玩视频游戏所耗时间百分比："));
     iceCream=float(raw_input(u"每年消费的冰淇淋公升数："));
-    datingDataMat,datingLabels = file2matrix('datingTestSet2.txt')
+    datingDataMat,datingLabels = file2matrix('knnLearn/datingTestSet2.txt')
     normMat, ranges, minVals = autoNorm(datingDataMat)
     inArr = array([ffMiles, percentTats, iceCream])
     classifierResult = classify0((inArr-minVals)/ranges,normMat,datingLabels,3)
@@ -107,7 +110,7 @@ if __name__=="__main__":
     # print group;
     # print label;
     # print classify0([1, 2], group, label, 3);
-    #datingDataMat, datingLabels=file2matrix("datingTestSet2.txt");
+    #datingDataMat, datingLabels=file2matrix("knnLearn/datingTestSet2.txt");
     # print  datingDataMat;#属性
     # print datingLabels[0:20];#类标
     # plt.rcParams['font.sans-serif']=['SimHei']; #用来正常显示中文标签
@@ -145,8 +148,3 @@ if __name__=="__main__":
     # print autoNorm(datingDataMat);
     #datingClassTest();
     classifyPerson();
-
-
-
-
-
