@@ -26,11 +26,12 @@ def classify0(inX, dataSet, labels, k):#inX为输入向量，dataSet训练集，
     sqDiffMat = diffMat**2#每个差值元素都平方
     sqDistances = sqDiffMat.sum(axis=1)#按行求和，当axis=0时按列求和
     distances = sqDistances**0.5#开根号
-    sortedDistIndicies = distances.argsort()#升序排序
-    classCount={}
+    sortedDistIndicies = distances.argsort()#升序排序，注意了，这个排序后得到的不是值的排序，而是排序的索引位置，比如
+    #第三号元素最大，那就第一个数是3
+    classCount={}#新建一个字典
     for i in range(k):
-        voteIlabel = labels[sortedDistIndicies[i]]
-        classCount[voteIlabel] = classCount.get(voteIlabel,0) + 1
+        voteIlabel = labels[sortedDistIndicies[i]]#得到类标
+        classCount[voteIlabel] = classCount.get(voteIlabel,0) + 1#以voteIlabel取值，无则为0，有加1
     sortedClassCount = sorted(classCount.iteritems(), key=operator.itemgetter(1), reverse=True)#按照第二个元素逆序排列
     return sortedClassCount[0][0]#返回频次最高的元素
 
