@@ -6,7 +6,7 @@ import operator
 '''
 功能：创建数据集
 输入：无
-输出：属性集、类标集
+输出：数据集、属性名称集
 '''
 def createDataSet():
     dataSet = [[1, 1, 'yes'],
@@ -23,11 +23,11 @@ def createDataSet():
 输出：信息熵
 '''
 def calcShannonEnt(dataSet):
-    numEntries = len(dataSet)#数据长度
+    numEntries = len(dataSet)
     labelCounts = {}
-    for featVec in dataSet:
+    for featVec in dataSet:#建立类标字典
         currentLabel = featVec[-1]#得到最后一列值
-        if currentLabel not in labelCounts.keys():#创建字典
+        if currentLabel not in labelCounts.keys():
             labelCounts[currentLabel] = 0
         labelCounts[currentLabel] += 1
     shannonEnt = 0.0
@@ -56,29 +56,28 @@ def splitDataSet(dataSet, axis, value):
 输出：选择划分的特征
 '''
 def chooseBestFeatureToSplit(dataSet):
-    numFeatures = len(dataSet[0]) - 1      #最后一列
+    numFeatures = len(dataSet[0]) - 1
     baseEntropy = calcShannonEnt(dataSet)   #计算信息熵
     bestInfoGain = 0.0; bestFeature = -1
     for i in range(numFeatures):        #迭代计算所有属性集
         featList = [example[i] for example in dataSet]#得到所有第i列的值，存于example[i]
-        # print featList
         uniqueVals = set(featList)       #得到去重以后i列的属性值
-        # print uniqueVals
         newEntropy = 0.0
         for value in uniqueVals:
             subDataSet = splitDataSet(dataSet, i, value)
             prob = len(subDataSet)/float(len(dataSet))
             newEntropy += prob * calcShannonEnt(subDataSet)
         infoGain = baseEntropy - newEntropy     #calculate the info gain; ie reduction in entropy
+        print infoGain;
         if (infoGain > bestInfoGain):       #计算到目前为止最好的信息增益
             bestInfoGain = infoGain
             bestFeature = i
     return bestFeature                      #返回最好信息增益所在列值
 
 '''
-功能：
-输入：
-输出：
+功能：求出现次数最多的分类名称
+输入：分类名称的列表
+输出：出现次数最多的分类名称
 '''
 def majorityCnt(classList):
     classCount={}
@@ -88,10 +87,35 @@ def majorityCnt(classList):
     sortedClassCount = sorted(classCount.iteritems(), key=operator.itemgetter(1), reverse=True)
     return sortedClassCount[0][0]
 
+'''
+功能：建树
+输入：数据集、类标
+输出：树
+'''
+def createTree(dataSet,labels):
+    classList = [example[-1] for example in dataSet]
+    if classList.count(classList[0]) == len(classList):
+        return classList[0]#stop splitting when all of the classes are equal
+    if len(dataSet[0]) == 1: #stop splitting when there are no more features in dataSet
+        return majorityCnt(classList)
+    bestFeat = chooseBestFeatureToSplit(dataSet)
+    bestFeatLabel = labels[bestFeat]
+    myTree = {bestFeatLabel:{}}
+    del(labels[bestFeat])
+    featValues = [example[bestFeat] for example in dataSet]
+    uniqueVals = set(featValues)
+    for value in uniqueVals:
+        subLabels = labels[:]       #copy all of labels, so trees don't mess up existing labels
+        myTree[bestFeatLabel][value] = createTree(splitDataSet(dataSet, bestFeat, value),subLabels)
+    return myTree
+
 if __name__ == "__main__":
     myData,labels=createDataSet();
-    print myData;
+    print myData,labels;
     # print calcShannonEnt(myData);
     # print splitDataSet(myData,0,1)
     # print splitDataSet(myData,0,0)
-    print chooseBestFeatureToSplit(myData)
+    #print calcShannonEnt(myData);
+    #print chooseBestFeatureToSplit(myData)
+    # myTree=createTree(myData,labels);
+    # print myTree
