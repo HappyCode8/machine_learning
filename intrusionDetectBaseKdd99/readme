@@ -1,0 +1,13 @@
+1、kdd99的原数据集有将近500万行，抽取的十分之一也有50万行，从kddcup.data_10_percent_corrected里
+随机抽取10000行形成了newfile这个文件，这个功能使用splitNeedLine函数完成，这里不附
+kddcup.data_10_percent_corrected这个文件了，使用时请使用UCI机器学习网上的数据，源数据集见
+http://kdd.ics.uci.edu/databases/kddcup99/kddcup99.html
+2、然后对数据集中的数据进行清洗，将名称型数据替换为连续的数值型数据，这个功能使用datacleaning完成，
+然后得到了datafinal这个数据集
+3、将datafinal的数据粘贴一部分到test.txt进行处理，在dataWeHope这里，读取文件为矩阵，分割训练集测试集
+4、用myClassifier定义了一些分类器
+5、用rocDraw绘制了roc图
+6、在main里边集成了所有步骤，但是没有包括数据预处理这一部分
+7、需要注意的一点是，对最后是否为入侵的标签替换过程，有两种替代方法，一种是0,1，一种是0,1和1,0，./data/datafinal.txt
+使用01,10替换的，官方给的绘制roc曲线的一个例子是这样做的，如果要用此种方法做，请修改datacleaning的19行和21行
+这只是为了完成作业，多有不严谨的地方
